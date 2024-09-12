@@ -1,10 +1,12 @@
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +21,11 @@ import mynotes.composeapp.generated.resources.compose_multiplatform
 @Composable
 @Preview
 fun App() {
+    val textButton = remember { mutableStateOf("Click me!") }
+    val text = remember { mutableStateOf("") }
+    val message = "Hello ${text.value}"
+    val buttonEnabled = text.value.isNotEmpty()
+
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -32,6 +39,26 @@ fun App() {
                     Text("Compose: $greeting")
                 }
             }
+            AnimatedVisibility(!showContent) {
+                Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("Pulsa el botón")
+                }
+            }
+
+            Text("Write your name")
+            TextField(value = text.value, onValueChange = { newText -> text.value = newText })
+            Text(text = message)
+
+            Button(
+                onClick = {
+                    textButton.value = if (textButton.value != "Clear") "Clear" else "Click me!"
+                    text.value = ""
+                },
+                enabled = buttonEnabled
+            ) {
+                Text(text = textButton.value)
+            }
+
         }
     }
 }
