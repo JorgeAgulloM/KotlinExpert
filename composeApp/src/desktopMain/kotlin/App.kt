@@ -18,11 +18,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 @Preview
-fun App() {
+fun App(appState: AppState) {
     val textButton = remember { mutableStateOf("Click me!") }
-    val text = remember { mutableStateOf("") }
-    val message = buildMessage(text.value)
-    val buttonEnabled = text.value.isNotEmpty()
+
 
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
@@ -44,15 +42,15 @@ fun App() {
             }
 
             Text("Write your name")
-            TextField(value = text.value, onValueChange = { newText -> text.value = newText })
-            Text(text = message)
+            TextField(value = appState.text.value, onValueChange = { newText -> appState.text.value = newText })
+            Text(text = buildMessage(appState.text.value))
 
             Button(
                 onClick = {
                     textButton.value = if (textButton.value != "Clear") "Clear" else "Click me!"
-                    text.value = ""
+                    appState.text.value = ""
                 },
-                enabled = buttonEnabled
+                enabled = appState.buttonEnabled
             ) {
                 Text(text = textButton.value)
             }
