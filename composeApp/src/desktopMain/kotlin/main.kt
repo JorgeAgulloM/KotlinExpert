@@ -27,7 +27,7 @@ class AppState {
     }
 
     data class UiState(
-        val notes: List<Note> = emptyList(),
+        val notes: List<Note>? = null,
         val loading: Boolean = false
     )
 /*    val text = mutableStateOf("")
