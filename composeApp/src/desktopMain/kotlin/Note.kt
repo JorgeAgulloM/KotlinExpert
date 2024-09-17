@@ -1,6 +1,6 @@
 import Note.Type.*
 
-data class Note(val title: String, val description: String, val type: Type) {
+data class Note(val title: String, val description: String, val type: Type = TEXT) {
     enum class Type { TEXT, AUDIO }
 }
 
