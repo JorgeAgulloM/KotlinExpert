@@ -10,7 +10,7 @@ data class Note(
 
 fun getNotes(): List<Note> = (1..10).map {
     Note(
-        title = "title $it",
+        title = "Title $it",
         description = "Description $it",
         type = if (it % 3 == 0) AUDIO else TEXT
     )

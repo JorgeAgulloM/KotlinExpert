@@ -15,10 +15,11 @@ fun main() {
 }
 
 class AppState {
-    val text = mutableStateOf("")
+    val notes = mutableStateOf(getNotes())
+/*    val text = mutableStateOf("")
     val buttonEnabled: Boolean
         get() = text.value.isNotEmpty()
 
 
-    fun isButtonEnabled() = text.value.isNotEmpty()
+    fun isButtonEnabled() = text.value.isNotEmpty()*/
 }
