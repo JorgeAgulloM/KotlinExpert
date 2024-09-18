@@ -17,7 +17,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App(appState: AppState): Unit = with(appState) {
 
-    val notes = state.value.notes
+    val notes = state.notes
 
     if (notes == null) LaunchedEffect(true) {
         loadNotes()
@@ -25,7 +25,7 @@ fun App(appState: AppState): Unit = with(appState) {
 
     MaterialTheme {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            if (state.value.loading)
+            if (state.loading)
                 CircularProgressIndicator()
             notes?.let { NotesList(notes) }
         }
