@@ -20,7 +20,8 @@ fun App(appState: AppState): Unit = with(appState) {
     val notes = state.notes
 
     if (notes == null) LaunchedEffect(true) {
-        loadNotes()
+        //loadNotes()
+        loadNotes(this)
     }
 
     MaterialTheme {

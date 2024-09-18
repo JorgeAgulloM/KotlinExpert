@@ -1,4 +1,7 @@
 import Note.Type.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 data class Note(
     val title: String,
@@ -18,7 +21,7 @@ fun getNotes(): List<Note> = (1..10).map {
 
 fun getNotes(callBack: (List<Note>) -> Unit) {
     Thread.sleep(2000)
-    val notes = (1..10).map {
+    val notes = (0..10).map {
         Note(
             title = "Title $it",
             description = "Description $it",
@@ -26,6 +29,17 @@ fun getNotes(callBack: (List<Note>) -> Unit) {
         )
     }
     callBack(notes)
+}
+
+suspend fun getNotesWithCoroutine() = withContext(Dispatchers.IO) {
+    delay(2000)
+    (0..10).map {
+        Note(
+            title = "Title $it",
+            description = "Description $it",
+            type = if (it % 3 == 0) AUDIO else TEXT
+        )
+    }
 }
 
 fun test() {
