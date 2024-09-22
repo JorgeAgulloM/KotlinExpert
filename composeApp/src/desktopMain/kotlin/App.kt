@@ -11,10 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 @Preview
 fun App(appState: AppState): Unit = with(appState) {
@@ -22,7 +20,6 @@ fun App(appState: AppState): Unit = with(appState) {
     val state by state.collectAsState()
 
     LaunchedEffect(true) {
-        //loadNotes()
         loadNotes(this)
     }
 
@@ -33,43 +30,6 @@ fun App(appState: AppState): Unit = with(appState) {
             state.notes?.let { NotesList(it) }
         }
     }
-
-    /*val textButton = remember { mutableStateOf("Click me!") }*/
-/*    MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
-            }
-            AnimatedVisibility(!showContent) {
-                Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Pulsa el botón")
-                }
-            }
-
-            Text("Write your name")
-            TextField(value = appState.text.value, onValueChange = { newText -> appState.text.value = newText })
-            Text(text = buildMessage(appState.text.value))
-
-            Button(
-                onClick = {
-                    textButton.value = if (textButton.value != "Clear") "Clear" else "Click me!"
-                    appState.text.value = ""
-                },
-                enabled = appState.buttonEnabled
-            ) {
-                Text(text = textButton.value)
-            }
-
-        }
-    }*/
 }
 
 @Composable
@@ -102,5 +62,3 @@ private fun NotesList(notes: List<Note>) {
         }
     }
 }
-
-fun buildMessage(message: String): String = "Hello $message"
