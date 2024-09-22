@@ -1,5 +1,4 @@
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 
@@ -182,17 +181,17 @@ class ChannelsAsFlows {
 }
 
 
-fun main(): Unit = runBlocking {
+fun main_old4(): Unit = runBlocking {
     val channelsAsFlows = ChannelsAsFlows()
 
     launch { channelsAsFlows.update() }
     delay(2100) // Al no escuchar desde el inicio, no obtendremos los primeros valores
-/*
-    channelsAsFlows.state.collect {
-        delay(1000) //Solo imprimiremos cada segundo, por lo que llegaremos tarde y nos vamos a saltar un valor
-        println(it)
-    }
-*/
+    /*
+        channelsAsFlows.state.collect {
+            delay(1000) //Solo imprimiremos cada segundo, por lo que llegaremos tarde y nos vamos a saltar un valor
+            println(it)
+        }
+    */
 
     launch {
         for (value in channelsAsFlows.stateChannel) {
@@ -200,6 +199,34 @@ fun main(): Unit = runBlocking {
             println(value)
         }
     }
+}
+
+/**
+ * Aquí se plantea comom integrar un servicio que emite a través de un callBack y obtener de forma similar y
+ * transparente sus valores como si fuese un flow, sobre to_do en los casos en los que tengamos además otros flows y
+ * queramos que no haya distinción a la ora de conectarnos a dicho servicio y su callBack
+ **/
+
+
+class ViewModelCallBack {
+    fun update(callback: (Note) -> Unit) {
+        var count = 1
+        while (true) {
+            Thread.sleep(500)
+            callback(Note("Title $count", "description $count", Note.Type.TEXT))
+            println("Emitting Title $count")
+            count++
+        }
+    }
+}
+
+fun ViewModelCallBack.updateFlow(): Flow<Note> = callbackFlow {
+    update { trySend(it) }
+}
+
+fun main(): Unit = runBlocking {
+    val viewModel = ViewModelCallBack()
+    launch(Dispatchers.Default) { viewModel.updateFlow().collect(::println) }
 }
 
 
