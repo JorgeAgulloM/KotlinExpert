@@ -1,6 +1,8 @@
 import Note.Type.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
 data class Note(
@@ -47,4 +49,18 @@ fun test() {
     Note("Title", "Description")
     Note("Title", "Description", AUDIO)
     Note(title = "Title", type = AUDIO)
+}
+
+fun getNotesAsFlow(): Flow<List<Note>> = flow {
+    delay(2000)
+    var notes = emptyList<Note>()
+    (0..10).forEach {
+        notes = notes + Note(
+            "Title $it",
+            "Description $it",
+            if (it % 3 == 0) Note.Type.AUDIO else Note.Type.TEXT
+        )
+        emit(notes)
+        delay(500)
+    }
 }

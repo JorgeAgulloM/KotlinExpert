@@ -6,6 +6,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,9 +19,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App(appState: AppState): Unit = with(appState) {
 
-    val notes = state.notes
+    val state by state.collectAsState()
 
-    if (notes == null) LaunchedEffect(true) {
+    LaunchedEffect(true) {
         //loadNotes()
         loadNotes(this)
     }
@@ -28,7 +30,7 @@ fun App(appState: AppState): Unit = with(appState) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             if (state.loading)
                 CircularProgressIndicator()
-            notes?.let { NotesList(notes) }
+            state.notes?.let { NotesList(it) }
         }
     }
 
