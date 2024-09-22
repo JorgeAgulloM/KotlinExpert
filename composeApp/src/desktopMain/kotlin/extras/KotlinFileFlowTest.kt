@@ -1,6 +1,6 @@
 package extras
 
-import Note
+import data.Note
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
