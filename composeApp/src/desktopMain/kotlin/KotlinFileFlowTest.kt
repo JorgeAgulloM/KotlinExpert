@@ -1,4 +1,6 @@
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 
 fun main_old(): Unit = runBlocking {
@@ -132,7 +134,7 @@ class ViewModelShareFlow {
     }
 }
 
-fun main(): Unit = runBlocking {
+fun main_old3(): Unit = runBlocking {
     val viewModelShareFlow = ViewModelShareFlow()
 
     launch { viewModelShareFlow.update() }
@@ -143,6 +145,62 @@ fun main(): Unit = runBlocking {
     }
 }
 
+class ChannelsAsFlows {
+
+    /**
+     * Los channel son métodos ya sustituidos por los flow para realizar la reactividad. La grandiferencia es que cuando
+     * los channel envian nueva información, solo obtendrá dicha info el collector más rápido, al contrario que los
+     * stateFlow en los que todos los colectores reciven el nuevo valor una vez emitido. Aún así podriamos usar channels,
+     * realizando un comportamiento parecido a los flow, en algunas ocasiones, con la diferencia de que no se emitirán
+     * nuevos valores hasta que se consuma el valor actual, por defecto, aunque esto puede configurarse.
+     *
+     * Configuramos la propertie como channel y el valor público como reciveAsFlow() y con esto obtendremos un
+     * comportamiento como los flow de puertas hacia afuera.
+     *
+     * Podemos configurar:
+     *   . BUFFERED (-1): que nos permite almacenar hasta 64 valores aunque no se estén colecteando, una vez que se inicie
+     *       el collect, y el valor más antiguo se descartge, se continuará con la emisión.
+     *   . Capacidad deseada: Podemos config un valor de 3 por ejemplo, y solo almacenará 3 valores más el emitido.
+     *   . onBufferOverflow: Similar a la propiedad del flow
+     **/
+
+    private val _state: Channel<Note> = Channel()
+    val state: Flow<Note> = _state.receiveAsFlow()
+    val stateChannel: Channel<Note> = _state
+
+    suspend fun update() {
+        var count = 1
+        while (!_state.isClosedForSend) {
+            delay(500)
+            _state.send(Note("Title $count", "description $count", Note.Type.TEXT))
+            println("Emitting Title $count")
+            count++
+            if (count > 6)
+                _state.close()
+        }
+    }
+}
+
+
+fun main(): Unit = runBlocking {
+    val channelsAsFlows = ChannelsAsFlows()
+
+    launch { channelsAsFlows.update() }
+    delay(2100) // Al no escuchar desde el inicio, no obtendremos los primeros valores
+/*
+    channelsAsFlows.state.collect {
+        delay(1000) //Solo imprimiremos cada segundo, por lo que llegaremos tarde y nos vamos a saltar un valor
+        println(it)
+    }
+*/
+
+    launch {
+        for (value in channelsAsFlows.stateChannel) {
+            delay(1000)
+            println(value)
+        }
+    }
+}
 
 
 
