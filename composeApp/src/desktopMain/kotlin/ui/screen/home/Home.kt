@@ -2,8 +2,10 @@ package ui.screen.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -21,11 +23,16 @@ fun Home(): Unit = with(HomeState()) {
     }
 
     MaterialTheme {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            if (state.loading)
-                CircularProgressIndicator()
+        Scaffold(topBar = { TopBar() }) { paddings ->
+            Box(
+                modifier = Modifier.fillMaxSize().padding(paddings),
+                contentAlignment = Alignment.Center
+            ) {
+                if (state.loading)
+                    CircularProgressIndicator()
 
-            state.notes?.let { NotesList(it) }
+                state.notes?.let { NotesList(it) }
+            }
         }
     }
 }
