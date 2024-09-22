@@ -84,11 +84,63 @@ class ViewModel {
     }
 }
 
-fun main(): Unit = runBlocking {
+fun main_old2(): Unit = runBlocking {
     val viewModel = ViewModel()
 
     launch { viewModel.update() }
     viewModel.state.collect(::println)
+}
+
+
+/**
+ * ShareFlow tiene la capacidad de configurar tantos valores como queramos, pero si no lo configuramos no los almacena
+ * por defecto, por lo que si nos enganchamos a el "tarde", no observaremos los valores iniciales.
+ **/
+class ViewModelShareFlow {
+
+    /**
+     * Propiedades del ShareFlow:
+     * - Replay: No permite configurar la cantidad de valoes que queramos que almacene para que al suscribirnos nos
+     * devuelva esa cantidad de valores, por ejemplo, si configuramos a 1, funcionará igual que el StateFlow, y nos
+     * devolverá el último valor almacenado inmediatamente seguido del resto que esté emitiendo.
+     *
+     * - ExtraBufferCapacity: Tiene la capacidad de almacenar más valores y además suspender la emisión hasta que se
+     * empieze a consumir nuevos valores
+     *
+     * - OnBufferOverflow:
+     *   . SUSPEND: Por defecto se encuentra en SUSPEND, esto suspende las emisiones si superamos la capacida del buffer.
+     *   . DROP_OLDEST: Descarta los valores más antiguos almacenados y permite seguir emitiendo.
+     *   . DROP_LATEST: Descarta los valores nuevos conservando los antiguos hasta obtener nuevos consumos.
+     *   * Podróiamos realizar un comportamiento contrario al stateFlow para que emita continuamente el mismo valor,
+     *   configurando replay = 1 y onBufferOverflow.DROP_OLDEST
+     **/
+
+    private val _state: MutableSharedFlow<Note> = MutableSharedFlow(
+        replay = 3,
+        extraBufferCapacity = 3
+    )
+    val state: SharedFlow<Note> = _state
+
+    suspend fun update() {
+        var count = 1
+        while (count <= 20) {
+            delay(500)
+            _state.emit(Note("Title $count", "description $count", Note.Type.TEXT))
+            println("Emitting Title $count")
+            count++
+        }
+    }
+}
+
+fun main(): Unit = runBlocking {
+    val viewModelShareFlow = ViewModelShareFlow()
+
+    launch { viewModelShareFlow.update() }
+    delay(2100) // Al no escuchar desde el inicio, no obtendremos los primeros valores
+    viewModelShareFlow.state.collect {
+        delay(1000) //Solo imprimiremos cada segundo, por lo que llegaremos tarde y nos vamos a saltar un valor
+        println(it)
+    }
 }
 
 
