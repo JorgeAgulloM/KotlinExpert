@@ -1,39 +1,22 @@
+package ui.screen.home
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import data.Note
 
 @Composable
-@Preview
-fun App(appState: AppState): Unit = with(appState) {
-
-    val state by state.collectAsState()
-
-    LaunchedEffect(true) {
-        loadNotes(this)
-    }
-
-    MaterialTheme {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            if (state.loading)
-                CircularProgressIndicator()
-            state.notes?.let { NotesList(it) }
-        }
-    }
-}
-
-@Composable
-private fun NotesList(notes: List<Note>) {
+fun NotesList(notes: List<Note>) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally

@@ -1,5 +1,7 @@
-import Note.Type.AUDIO
-import Note.Type.TEXT
+package data
+
+import data.Note.Type.AUDIO
+import data.Note.Type.TEXT
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 
