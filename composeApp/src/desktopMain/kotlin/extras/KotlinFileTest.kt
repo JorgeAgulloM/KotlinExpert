@@ -1,3 +1,5 @@
+package extras
+
 import kotlin.properties.Delegates
 
 fun main() {
@@ -154,7 +156,7 @@ class Thing {
 
 fun thingTwo() {
     Thing.foo()
-    Thing.MyCompanionObject.foo()
+    Thing.foo()
 }
 
 //Delegación de propiedades

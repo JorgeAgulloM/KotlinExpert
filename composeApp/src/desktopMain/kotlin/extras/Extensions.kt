@@ -1,3 +1,6 @@
+package extras
+
+import AppState
 import androidx.compose.runtime.MutableState
 
 fun MutableState<AppState.UiState>.update(produceValue: () -> AppState.UiState) {
