@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun Home(): Unit = with(HomeState()) {
+fun Home(): Unit = with(HomeState) {
 
     val state by state.collectAsState()
 

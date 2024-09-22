@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class HomeState {
+object HomeState {
     private val _state = MutableStateFlow(UiState())
     val state = _state.asStateFlow()
 
