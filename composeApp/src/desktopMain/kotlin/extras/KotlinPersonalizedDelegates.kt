@@ -1,12 +1,21 @@
 package extras
 
-import androidx.compose.ui.graphics.ColorProducer
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlin.reflect.KProperty
+
+operator fun <T> StateFlow<T>.getValue(owner: Any?, property: KProperty<*>): T = value
+operator fun <T> MutableStateFlow<T>.setValue(owner: Any?, property: KProperty<*>, newValue: T) { value = newValue }
+
 
 private class KotlinPersonalizedDelegates {
 
-    fun test() {
+    // Crear una MutableStateFlow con delegados personalizados
+    var statePersonalizedState: AppStateExample.UiState by MutableStateFlow(AppStateExample.UiState())
+        private set
 
+    fun test() {
+        statePersonalizedState = AppStateExample.UiState()
     }
 
     class Owner {
