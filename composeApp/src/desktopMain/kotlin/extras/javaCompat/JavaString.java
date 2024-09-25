@@ -29,6 +29,14 @@ public class JavaString {
         MyKotlinClassTest myKotlinClassTest = new MyKotlinClassTest();
         myKotlinClassTest.setProperty("Hello World!!");
         String cosa = myKotlinClassTest.getProperty();
+
+        MyKotlinClassTestObject.INSTANCE.getProperty();
+        MyKotlinClassTestObject.propertyWithJvmLabel = "Eeesooo!!";
+        String jvmProperty = MyKotlinClassTestObject.propertyWithJvmLabel;
+        System.out.println(jvmProperty);
+
+        MyKotlinClassTestObject.myFunCosa();
+
     }
 }
 

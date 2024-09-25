@@ -48,3 +48,15 @@ fun cosa() {
 class MyKotlinClassTest() {
     var property: String = ""
 }
+
+object MyKotlinClassTestObject {
+    var property: String = ""
+
+    @JvmField
+    var propertyWithJvmLabel: String = ""
+
+    @JvmStatic
+    fun myFunCosa() {
+        println("Cosa")
+    }
+}
