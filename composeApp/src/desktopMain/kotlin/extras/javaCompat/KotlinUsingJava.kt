@@ -68,3 +68,5 @@ sealed class Op {
     data class Sub(val x: Int): Op()
     data object PlusOne: Op()
 }
+
+inline fun myInlineFun(lambda: (String) -> Unit) {}

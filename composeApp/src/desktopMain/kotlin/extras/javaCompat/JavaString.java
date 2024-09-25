@@ -41,6 +41,9 @@ public class JavaString {
         person1.component1(); // caca
         person1.getName();
         person1.getAge();
+
+        Utils.myInlineFun((String) -> null); // No tenemos ventajas al usar funciones inline
+
     }
 
     public void testSealed(Op op) {
