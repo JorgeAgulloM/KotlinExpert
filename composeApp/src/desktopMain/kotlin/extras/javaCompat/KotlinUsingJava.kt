@@ -24,3 +24,7 @@ private fun main() {
 fun myTopLevelFunction(str: String) {
 
 }
+
+fun String.myTopLevelFunctionExt(str: String): String {
+    return "$this and $str"
+}

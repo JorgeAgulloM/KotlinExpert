@@ -16,5 +16,8 @@ public class JavaString {
     public void testWithKotlinCode() {
         //KotlinUsingJavaKt.myTopLevelFunction("Hello World!!");
         Utils.myTopLevelFunction("Hello World!!");
+
+        // Uso de funciones de estensión desde Java
+        Utils.myTopLevelFunctionExt("Hello", "World!");
     }
 }
