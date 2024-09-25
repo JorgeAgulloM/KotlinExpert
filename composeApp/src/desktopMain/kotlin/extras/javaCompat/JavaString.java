@@ -42,5 +42,11 @@ public class JavaString {
         person1.getName();
         person1.getAge();
     }
+
+    public void testSealed(Op op) {
+        // caca, para Java las sealed classes se comportan como una clase normal, ya que no existen
+        // y no podemos obtener sus beneficios
+
+    }
 }
 

@@ -62,3 +62,9 @@ object MyKotlinClassTestObject {
 }
 
 data class Person23262(val name: String, val age: Int)
+
+sealed class Op {
+    data class Add(val x: Int): Op()
+    data class Sub(val x: Int): Op()
+    data object PlusOne: Op()
+}
