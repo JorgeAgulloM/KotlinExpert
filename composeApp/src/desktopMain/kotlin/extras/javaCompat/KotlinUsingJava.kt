@@ -18,3 +18,7 @@ private fun main() {
         }
     }
 }
+
+fun myTopLevelFunction(str: String) {
+
+}

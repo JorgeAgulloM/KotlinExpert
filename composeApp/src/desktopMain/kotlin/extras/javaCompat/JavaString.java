@@ -12,4 +12,8 @@ public class JavaString {
 
     @NotNull // (No aparece el warning porque la variable no está inicializada)
     public String myStringNotNullable;
+
+    public void testWithKotlinCode() {
+        KotlinUsingJavaKt.myTopLevelFunction("Hello World!!");
+    }
 }
