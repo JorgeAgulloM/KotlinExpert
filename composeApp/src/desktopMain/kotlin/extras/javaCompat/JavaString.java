@@ -19,5 +19,9 @@ public class JavaString {
 
         // Uso de funciones de estensión desde Java
         Utils.myTopLevelFunctionExt("Hello", "World!");
+
+        // Llamada a una función con sobrecarga
+        Utils.myTopLevelFunctionStr("Hello ");
+
     }
 }

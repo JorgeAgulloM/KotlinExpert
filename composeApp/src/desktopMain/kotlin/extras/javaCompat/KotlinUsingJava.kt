@@ -28,3 +28,8 @@ fun myTopLevelFunction(str: String) {
 fun String.myTopLevelFunctionExt(str: String): String {
     return "$this and $str"
 }
+
+@JvmOverloads
+fun myTopLevelFunctionStr(str1: String, str2: String = "World") {
+    println(str1 + str2)
+}
