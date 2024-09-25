@@ -25,6 +25,10 @@ public class JavaString {
 
         // Funciones con prametros de tipo lambdas
         Utils.myTopLevelFunctionLambda((string, integer) -> string + " cosa " + integer);
+
+        MyKotlinClassTest myKotlinClassTest = new MyKotlinClassTest();
+        myKotlinClassTest.setProperty("Hello World!!");
+        String cosa = myKotlinClassTest.getProperty();
     }
 }
 

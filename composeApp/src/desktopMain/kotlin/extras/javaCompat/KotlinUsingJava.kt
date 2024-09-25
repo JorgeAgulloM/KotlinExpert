@@ -44,3 +44,7 @@ fun myTopLevelFunctionLambda(lambda: (String, Int) -> String) {
 fun cosa() {
     myTopLevelFunctionLambda { str, num -> "$str tiene $num de cosas" }
 }
+
+class MyKotlinClassTest() {
+    var property: String = ""
+}
