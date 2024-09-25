@@ -37,6 +37,10 @@ public class JavaString {
 
         MyKotlinClassTestObject.myFunCosa();
 
+        Person23262 person1 = new Person23262("Jorge", 40);
+        person1.component1(); // caca
+        person1.getName();
+        person1.getAge();
     }
 }
 

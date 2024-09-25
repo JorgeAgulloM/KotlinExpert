@@ -60,3 +60,5 @@ object MyKotlinClassTestObject {
         println("Cosa")
     }
 }
+
+data class Person23262(val name: String, val age: Int)
