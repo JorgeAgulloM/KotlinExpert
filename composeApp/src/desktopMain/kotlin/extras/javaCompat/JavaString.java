@@ -14,6 +14,7 @@ public class JavaString {
     public String myStringNotNullable;
 
     public void testWithKotlinCode() {
-        KotlinUsingJavaKt.myTopLevelFunction("Hello World!!");
+        //KotlinUsingJavaKt.myTopLevelFunction("Hello World!!");
+        Utils.myTopLevelFunction("Hello World!!");
     }
 }

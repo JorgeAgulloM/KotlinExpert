@@ -1,3 +1,5 @@
+@file:JvmName("Utils")
+
 package extras.javaCompat
 
 private fun main() {
