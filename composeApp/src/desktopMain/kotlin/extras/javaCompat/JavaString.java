@@ -23,5 +23,8 @@ public class JavaString {
         // Llamada a una función con sobrecarga
         Utils.myTopLevelFunctionStr("Hello ");
 
+        // Funciones con prametros de tipo lambdas
+        Utils.myTopLevelFunctionLambda((string, integer) -> string + " cosa " + integer);
     }
 }
+
