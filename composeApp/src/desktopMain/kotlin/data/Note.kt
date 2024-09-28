@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Note(
-    val id: Long,
+    val id: Long = 0L,
     val title: String,
     val description: String = "default description",
     val type: Type = TEXT
