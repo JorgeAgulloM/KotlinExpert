@@ -1,25 +1,14 @@
 package data
 
-import data.Note.Type.AUDIO
 import data.Note.Type.TEXT
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.flow
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Note(
+    val id: Long,
     val title: String,
     val description: String = "default description",
     val type: Type = TEXT
 ) {
     enum class Type { TEXT, AUDIO }
-}
-
-fun getNotes() = flow {
-    delay(2000)
-    emit((1..10).map {
-        Note(
-            title = "Title $it",
-            description = "Description $it",
-            type = if (it % 3 == 0) AUDIO else TEXT
-        )
-    })
 }

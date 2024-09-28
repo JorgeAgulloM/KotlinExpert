@@ -19,7 +19,7 @@ fun Home(): Unit = with(HomeState) {
     val state by state.collectAsState()
 
     LaunchedEffect(true) {
-        loadNotes(this)
+        getServerNotes(this)
     }
 
     MaterialTheme {

@@ -2,7 +2,10 @@ package ui.screen.home
 
 import data.Filter
 import data.Note
-import data.getNotes
+import data.remote.myNotesClient
+
+import io.ktor.client.call.*
+import io.ktor.client.request.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,12 +16,11 @@ object HomeState {
     private val _state = MutableStateFlow(UiState())
     val state = _state.asStateFlow()
 
-    fun loadNotes(coroutineScope: CoroutineScope) {
+    fun getServerNotes(coroutineScope: CoroutineScope) {
         coroutineScope.launch {
             _state.value = UiState(loading = true)
-            getNotes().collect { notes ->
-                _state.value = UiState(notes = notes)
-            }
+            val response = myNotesClient.request("http://localhost:8080/notes")
+            _state.value = UiState(notes = response.body())
         }
     }
 

@@ -76,14 +76,14 @@ fun main_old(): Unit = runBlocking {
 
 
 class ViewModel {
-    private val _state: MutableStateFlow<Note> = MutableStateFlow(Note("title 1", "Description 1", Note.Type.TEXT))
+    private val _state: MutableStateFlow<Note> = MutableStateFlow(Note(0L, "title 1", "Description 1", Note.Type.TEXT))
     val state: StateFlow<Note> = _state
     suspend fun update() {
         var count = 1
         while (true) {
             delay(2000)
             count++
-            _state.value = Note("Title $count", "description $count", Note.Type.TEXT)
+            _state.value = Note(count.toLong(), "Title $count", "description $count", Note.Type.TEXT)
         }
     }
 }
@@ -129,7 +129,7 @@ class ViewModelShareFlow {
         var count = 1
         while (count <= 20) {
             delay(500)
-            _state.emit(Note("Title $count", "description $count", Note.Type.TEXT))
+            _state.emit(Note(count.toLong(),"Title $count", "description $count", Note.Type.TEXT))
             println("Emitting Title $count")
             count++
         }
@@ -174,7 +174,7 @@ class ChannelsAsFlows {
         var count = 1
         while (!_state.isClosedForSend) {
             delay(500)
-            _state.send(Note("Title $count", "description $count", Note.Type.TEXT))
+            _state.send(Note(count.toLong(), "Title $count", "description $count", Note.Type.TEXT))
             println("Emitting Title $count")
             count++
             if (count > 6)
@@ -216,7 +216,7 @@ class ViewModelCallBack {
         var count = 1
         while (true) {
             Thread.sleep(500)
-            callback(Note("Title $count", "description $count", Note.Type.TEXT))
+            callback(Note(count.toLong(), "Title $count", "description $count", Note.Type.TEXT))
             println("Emitting Title $count")
             count++
         }
