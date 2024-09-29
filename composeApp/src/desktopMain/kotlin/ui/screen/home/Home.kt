@@ -7,26 +7,18 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import data.Note
 
 @Composable
-fun Home(onCreatedClick: () -> Unit): Unit = with(HomeState) {
-
-    val state by state.collectAsState()
-
-    LaunchedEffect(true) {
-        getServerNotes(this)
-    }
+fun Home(viewModel: HomeViewModel, onNoteClick: (noteId: Long) -> Unit): Unit {
 
     MaterialTheme {
         Scaffold(
-            topBar = { TopBar(::onFilteredClick) },
+            topBar = { TopBar(viewModel::onFilteredClick) },
             floatingActionButton = {
-                FloatingActionButton(onClick = onCreatedClick) {
+                FloatingActionButton(onClick = { onNoteClick(Note.NEW_NOTE) }) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = "Add Note")
                 }
             }
@@ -35,10 +27,10 @@ fun Home(onCreatedClick: () -> Unit): Unit = with(HomeState) {
                 modifier = Modifier.fillMaxSize().padding(paddings),
                 contentAlignment = Alignment.Center
             ) {
-                if (state.loading)
+                if (viewModel.state.loading)
                     CircularProgressIndicator()
 
-                state.filterNotes?.let { NotesList(it) }
+                viewModel.state.filterNotes?.let { note -> NotesList(notes = note) { onNoteClick(it.id) } }
             }
         }
     }

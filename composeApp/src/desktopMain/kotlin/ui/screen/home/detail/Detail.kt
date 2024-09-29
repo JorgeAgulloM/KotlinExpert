@@ -16,43 +16,42 @@ import androidx.compose.ui.unit.dp
 import data.Note
 
 @Composable
-fun Detail(id: Long, onClose: () -> Unit) {
+fun Detail(viewModel: DetailViewModel, onClose: () -> Unit) {
 
-    var note by remember {
-        mutableStateOf(
-            Note(
-                title = "",
-                description = "",
-                type = Note.Type.TEXT,
-                id = id
-            )
-        )
-    }
+    val note = viewModel.state.note
 
     Scaffold(
         topBar = {
             TopBar(
                 note = note,
                 onClose = onClose,
-                onSave = onClose,
-                onDelete = onClose
+                onSave = viewModel::save,
+                onDelete = viewModel::delete
             )
         }
     ) {
-        Column(modifier = Modifier.padding(32.dp)) {
+        if (viewModel.state.saved) {
+            onClose()
+        }
+
+        if (viewModel.state.loading) {
+            CircularProgressIndicator()
+        } else Column(modifier = Modifier.padding(32.dp)) {
             OutlinedTextField(
                 value = note.title,
-                onValueChange = { note = note.copy(title = it) },
+                onValueChange = { viewModel.update(note.copy(title = it)) },
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text(text = "Title") },
                 maxLines = 1
             )
-            TypeDropDown(value = note.type, modifier = Modifier.fillMaxWidth()) { note = note.copy(type = it) }
+            TypeDropDown(value = note.type, modifier = Modifier.fillMaxWidth()) {
+                viewModel.update(note.copy(type = it))
+            }
             OutlinedTextField(
                 value = note.description,
-                onValueChange = { note = note.copy(description = it) },
+                onValueChange = { viewModel.update(note.copy(description = it)) },
                 modifier = Modifier.fillMaxWidth().weight(1f),
-                label = { Text(text = "Title") },
+                label = { Text(text = "Description") },
             )
         }
     }
@@ -88,7 +87,7 @@ private fun TypeDropDown(value: Note.Type, modifier: Modifier = Modifier, onValu
 @Composable
 private fun TopBar(note: Note, onClose: () -> Unit, onSave: () -> Unit, onDelete: () -> Unit) {
     TopAppBar(
-        title = { Text(text = note.title) },
+        title = { Text(text = "IdNote: ${note.id} -> ${note.title}") },
         navigationIcon = {
             IconButton(onClick = onClose) {
                 Icon(
