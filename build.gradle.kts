@@ -1,7 +1,16 @@
+group = "com.devexperto"
+version = "1.0-SNAPSHOT"
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
+}
+
 plugins {
-    // this is necessary to avoid the plugins to be loaded multiple times
-    // in each subproject's classloader
-    alias(libs.plugins.jetbrainsCompose) apply false
-    alias(libs.plugins.kotlinMultiplatform) apply false
-    alias(libs.plugins.serialization) apply false
+    kotlin("multiplatform") apply false
+    kotlin("plugin.serialization") apply false
+    id("org.jetbrains.compose") apply false
 }
