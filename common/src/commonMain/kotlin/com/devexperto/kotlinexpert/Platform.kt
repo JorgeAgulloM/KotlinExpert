@@ -1,5 +1,5 @@
 package com.devexperto.kotlinexpert
 
-fun getAppTitle() = "My Notes - ${getPlatformName()}"
-
 expect fun getPlatformName(): String
+
+fun getAppTitle(): String = "My Notes - ${getPlatformName()}"
